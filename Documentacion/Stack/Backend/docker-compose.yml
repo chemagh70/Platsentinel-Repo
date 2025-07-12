@@ -1,0 +1,35 @@
+version: '3.8'
+
+services:
+
+  backend:
+    build:
+      context: ./platsentinel_backend
+    container_name: sentinel_backend
+    volumes:
+      - ./informes:/informes
+    env_file:
+      - ./platsentinel_backend/.env
+    ports:
+      - "8000:8000"
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+
+  frontend:
+    image: node:18-alpine
+    container_name: sentinel_frontend
+    working_dir: /app
+    volumes:
+      - ./platsentinel_ui_auth:/app
+    ports:
+      - "3000:3000"
+    command: sh -c "npm install && npm run dev"
+
+  zap:
+    image: owasp/zap2docker-stable
+    container_name: zap
+    ports:
+      - "8080:8080"
+    command: zap.sh -daemon -host 0.0.0.0 -port 8080 -config api.disablekey=true
+
+volumes:
+  informes:

@@ -1,0 +1,57 @@
+```vue
+<!-- codigo_fuente/dashboard/src/vistas/PanelPrincipal.vue -->
+<template>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div class="bg-white p-6 rounded-lg shadow">
+            <h3 class="text-lg font-semibold mb-4">Estado de Escaneos</h3>
+            <p>Escaneos Activos: {{ scanStatus.active }}</p>
+            <p>Escaneos Completados: {{ scanStatus.completed }}</p>
+            <button @click="startScan" class="mt-4 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Iniciar Escaneo</button>
+        </div>
+        <div class="bg-white p-6 rounded-lg shadow">
+            <h3 class="text-lg font-semibold mb-4">Vulnerabilidades Recientes</h3>
+            <ul class="space-y-2">
+                <li v-for="vuln in recentVulnerabilities" :key="vuln.id" class="text-sm">
+                    <span :class="vuln.severity === 'Crítica' ? 'text-red-600' : 'text-yellow-600'">{{ vuln.severity }}</span>: {{ vuln.description }}
+                </li>
+            </ul>
+        </div>
+        <div class="bg-white p-6 rounded-lg shadow">
+            <h3 class="text-lg font-semibold mb-4">Notificaciones WhatsApp</h3>
+            <p>Estado: {{ whatsappStatus }}</p>
+            <button @click="testWhatsApp" class="mt-4 bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">Probar Notificación</button>
+        </div>
+    </div>
+</template>
+
+<script>
+import { iniciarEscaneo } from '../utilidades/api';
+
+export default {
+    name: 'PanelPrincipal',
+    data() {
+        return {
+            scanStatus: { active: 0, completed: 0 },
+            recentVulnerabilities: [
+                { id: 1, severity: 'Crítica', description: 'XSS en http://example.com' },
+                { id: 2, severity: 'Media', description: 'SQLi en formulario de login' }
+            ],
+            whatsappStatus: 'Conectado'
+        };
+    },
+    methods: {
+        async startScan() {
+            try {
+                await iniciarEscaneo('http://example.com');
+                alert('Escaneo iniciado');
+            } catch (error) {
+                alert('Error al iniciar escaneo');
+            }
+        },
+        testWhatsApp() {
+            alert('Enviando notificación de prueba a WhatsApp...');
+        }
+    }
+};
+</script>
+```

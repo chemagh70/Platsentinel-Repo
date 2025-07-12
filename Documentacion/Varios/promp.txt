@@ -1,0 +1,8 @@
+Analizar el chat y el archivo enviado teniendo en cuenta que el proyecto lo va a realizar un grupo de trabajo de 4 personas, que habiendo acabado un curso de seguridad informática se embarca en esta aventura.
+Empezando por desarrollar algo viable par poder entregar a futuros clientes como demostración en un plazo de 2 meses.
+Crear un plan de ejecución siempre con la premisa de viabilidad y que el equipo deberá ir aprendiendo las diferentes disciplinas del proyecto. 
+Definir los diferentes trabajos a realizar, los roles se otorgaran según la capacidad de cada persona.
+Crear ckecklist para cada trabajo, que sea muy detallado y sirva al mismo tiempo como seguimiento de los avances.
+
+
+Proponer mejoras.

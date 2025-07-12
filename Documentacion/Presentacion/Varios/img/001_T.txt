@@ -1,0 +1,10 @@
+Y SentinelCore
+Plataforma Modular de Seguridad como Servicio (SaaS)
+Qué es SentinelCore
+e Esuna plataforma modular que
+centraliza y gestiona
+herramientas de seguridad
+A quién va dirigido
+e Pegueñas y medianas empresas
+(PYMEs)
+e Servicios técnicos y educativos

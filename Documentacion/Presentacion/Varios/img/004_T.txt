@@ -1,0 +1,6 @@
+Integracion con
+WhatsApp y APIs
+e Canal de asistencia al usuario
+e Control de servicios por comandos
+desde WhatsApp
+e Alternativa: app propia conectada a la API

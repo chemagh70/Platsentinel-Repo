@@ -1,0 +1,281 @@
+<script type="text/javascript">
+        var gk_isXlsx = false;
+        var gk_xlsxFileLookup = {};
+        var gk_fileData = {};
+        function filledCell(cell) {
+          return cell !== '' && cell != null;
+        }
+        function loadFileData(filename) {
+        if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
+            try {
+                var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
+                var firstSheetName = workbook.SheetNames[0];
+                var worksheet = workbook.Sheets[firstSheetName];
+
+                // Convert sheet to JSON to filter blank rows
+                var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
+                // Filter out blank rows (rows where all cells are empty, null, or undefined)
+                var filteredData = jsonData.filter(row => row.some(filledCell));
+
+                // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
+                var headerRowIndex = filteredData.findIndex((row, index) =>
+                  row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
+                );
+                // Fallback
+                if (headerRowIndex === -1 || headerRowIndex > 25) {
+                  headerRowIndex = 0;
+                }
+
+                // Convert filtered JSON back to CSV
+                var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
+                csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
+                return csv;
+            } catch (e) {
+                console.error(e);
+                return "";
+            }
+        }
+        return gk_fileData[filename] || "";
+        }
+        </script><!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PlatSentinel - Dashboard</title>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .sidebar { transition: transform 0.3s ease; }
+        .sidebar-hidden { transform: translateX(-100%); }
+    </style>
+</head>
+<body class="bg-gray-100">
+    <div id="app" class="min-h-screen flex">
+        <!-- Barra Lateral -->
+        <aside :class="['sidebar fixed top-0 left-0 h-full w-64 bg-blue-800 text-white p-4', { 'sidebar-hidden': !sidebarOpen }]">
+            <div class="flex items-center mb-6">
+                <img src="/assets/logo.png" alt="PlatSentinel Logo" class="w-12 h-12 mr-2">
+                <h1 class="text-xl font-bold">PlatSentinel</h1>
+            </div>
+            <nav>
+                <ul class="space-y-2">
+                    <li><a href="#" @click="currentView = 'dashboard'" class="block p-2 hover:bg-blue-700 rounded">Panel Principal</a></li>
+                    <li><a href="#" @click="currentView = 'scans'" class="block p-2 hover:bg-blue-700 rounded">Escaneos</a></li>
+                    <li><a href="#" @click="currentView = 'reports'" class="block p-2 hover:bg-blue-700 rounded">Informes</a></li>
+                    <li><a href="#" @click="currentView = 'services'" class="block p-2 hover:bg-blue-700 rounded">Servicios Gestionados</a></li>
+                    <li><a href="#" @click="currentView = 'learning'" class="block p-2 hover:bg-blue-700 rounded">Aprendizaje</a></li>
+                    <li><a href="#" @click="logout" class="block p-2 hover:bg-blue-700 rounded">Cerrar Sesión</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Contenido Principal -->
+        <main class="flex-1 p-6 ml-0 md:ml-64">
+            <header class="flex justify-between items-center mb-6">
+                <button @click="sidebarOpen = !sidebarOpen" class="md:hidden p-2 bg-blue-600 text-white rounded">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                </button>
+                <h2 class="text-2xl font-bold">Bienvenido, {{ user.name }}</h2>
+                <div class="flex items-center space-x-4">
+                    <span class="text-gray-600">{{ currentDate }}</span>
+                    <button @click="showNotifications" class="relative">
+                        <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6 6 0 00-5-5.917V4a2 2 0 00-4 0v1.083A6 6 0 004 11v3.159c0 .538-.214 1.053-.595 1.434L2 17h5m5 0v1a3 3 0 01-6 0v-1m6 0H9"></path></svg>
+                        <span v-if="notifications.length" class="absolute -top-1 -right-1 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs">{{ notifications.length }}</span>
+                    </button>
+                </div>
+            </header>
+
+            <!-- Vistas Dinámicas -->
+            <div v-if="currentView === 'dashboard'" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <h3 class="text-lg font-semibold mb-4">Estado de Escaneos</h3>
+                    <p>Escaneos Activos: {{ scanStatus.active }}</p>
+                    <p>Escaneos Completados: {{ scanStatus.completed }}</p>
+                    <button @click="startScan" class="mt-4 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Iniciar Escaneo</button>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <h3 class="text-lg font-semibold mb-4">Vulnerabilidades Recientes</h3>
+                    <ul class="space-y-2">
+                        <li v-for="vuln in recentVulnerabilities" :key="vuln.id" class="text-sm">
+                            <span :class="vuln.severity === 'Crítica' ? 'text-red-600' : 'text-yellow-600'">{{ vuln.severity }}</span>: {{ vuln.description }}
+                        </li>
+                    </ul>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow">
+                    <h3 class="text-lg font-semibold mb-4">Notificaciones WhatsApp</h3>
+                    <p>Estado: {{ whatsappStatus }}</p>
+                    <button @click="testWhatsApp" class="mt-4 bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">Probar Notificación</button>
+                </div>
+            </div>
+
+            <div v-if="currentView === 'scans'" class="bg-white p-6 rounded-lg shadow">
+                <h3 class="text-lg font-semibold mb-4">Gestión de Escaneos</h3>
+                <div class="mb-4">
+                    <input v-model="scanUrl" type="text" placeholder="URL o archivo para escanear" class="border p-2 rounded w-full">
+                    <button @click="submitScan" class="mt-2 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Iniciar Escaneo</button>
+                </div>
+                <table class="w-full border-collapse">
+                    <thead>
+                        <tr class="bg-gray-200">
+                            <th class="p-2">ID</th>
+                            <th class="p-2">URL/Archivo</th>
+                            <th class="p-2">Estado</th>
+                            <th class="p-2">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="scan in scans" :key="scan.id" class="border-b">
+                            <td class="p-2">{{ scan.id }}</td>
+                            <td class="p-2">{{ scan.target }}</td>
+                            <td class="p-2">{{ scan.status }}</td>
+                            <td class="p-2">
+                                <button @click="viewScanDetails(scan.id)" class="text-blue-600 hover:underline">Detalles</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div v-if="currentView === 'reports'" class="bg-white p-6 rounded-lg shadow">
+                <h3 class="text-lg font-semibold mb-4">Informes</h3>
+                <div class="mb-4">
+                    <select v-model="reportType" class="border p-2 rounded">
+                        <option value="html">HTML</option>
+                        <option value="pdf">PDF</option>
+                    </select>
+                    <button @click="generateReport" class="ml-2 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Generar Informe</button>
+                </div>
+                <ul class="space-y-2">
+                    <li v-for="report in reports" :key="report.id" class="flex justify-between">
+                        <span>{{ report.name }}</span>
+                        <button @click="downloadReport(report.id)" class="text-blue-600 hover:underline">Descargar</button>
+                    </li>
+                </ul>
+            </div>
+
+            <div v-if="currentView === 'services'" class="bg-white p-6 rounded-lg shadow">
+                <h3 class="text-lg font-semibold mb-4">Servicios Gestionados</h3>
+                <table class="w-full border-collapse">
+                    <thead>
+                        <tr class="bg-gray-200">
+                            <th class="p-2">Servicio</th>
+                            <th class="p-2">Estado</th>
+                            <th class="p-2">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="service in services" :key="service.id" class="border-b">
+                            <td class="p-2">{{ service.name }}</td>
+                            <td class="p-2">{{ service.status }}</td>
+                            <td class="p-2">
+                                <button @click="toggleService(service.id)" class="text-blue-600 hover:underline">{{ service.status === 'Activo' ? 'Desactivar' : 'Activar' }}</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div v-if="currentView === 'learning'" class="bg-white p-6 rounded-lg shadow">
+                <h3 class="text-lg font-semibold mb-4">Módulo de Aprendizaje</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div v-for="tutorial in tutorials" :key="tutorial.id" class="border p-4 rounded">
+                        <h4 class="font-semibold">{{ tutorial.title }}</h4>
+                        <p class="text-sm text-gray-600">{{ tutorial.description }}</p>
+                        <button @click="startTutorial(tutorial.id)" class="mt-2 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Iniciar Tutorial</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        const { createApp } = Vue;
+
+        createApp({
+            data() {
+                return {
+                    sidebarOpen: false,
+                    currentView: 'dashboard',
+                    user: { name: 'Usuario' },
+                    currentDate: new Date().toLocaleDateString('es-ES', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }),
+                    notifications: [],
+                    scanStatus: { active: 0, completed: 0 },
+                    recentVulnerabilities: [
+                        { id: 1, severity: 'Crítica', description: 'XSS en http://example.com' },
+                        { id: 2, severity: 'Media', description: 'SQLi en formulario de login' }
+                    ],
+                    whatsappStatus: 'Conectado',
+                    scanUrl: '',
+                    scans: [
+                        { id: 1, target: 'http://example.com', status: 'Completado' },
+                        { id: 2, target: 'doc.pdf', status: 'En Progreso' }
+                    ],
+                    reportType: 'html',
+                    reports: [
+                        { id: 1, name: 'Informe_2025-07-01.html' },
+                        { id: 2, name: 'Informe_2025-07-02.pdf' }
+                    ],
+                    services: [
+                        { id: 1, name: 'OWASP ZAP', status: 'Activo' },
+                        { id: 2, name: 'VirusTotal', status: 'Inactivo' }
+                    ],
+                    tutorials: [
+                        { id: 1, title: 'OWASP Top 10', description: 'Introducción a vulnerabilidades comunes' },
+                        { id: 2, title: 'Sanitización de Archivos', description: 'Cómo prevenir amenazas en archivos' }
+                    ]
+                };
+            },
+            methods: {
+                logout() {
+                    alert('Sesión cerrada');
+                    // Lógica de cierre de sesión
+                },
+                showNotifications() {
+                    alert(`Notificaciones: ${this.notifications.length}`);
+                    // Mostrar notificaciones
+                },
+                startScan() {
+                    alert('Iniciando escaneo...');
+                    // Lógica para iniciar escaneo
+                },
+                testWhatsApp() {
+                    alert('Enviando notificación de prueba a WhatsApp...');
+                    // Lógica para probar WhatsApp
+                },
+                submitScan() {
+                    if (this.scanUrl) {
+                        this.scans.push({ id: this.scans.length + 1, target: this.scanUrl, status: 'En Progreso' });
+                        this.scanUrl = '';
+                        alert('Escaneo iniciado');
+                    }
+                },
+                viewScanDetails(id) {
+                    alert(`Mostrando detalles del escaneo ${id}`);
+                    // Lógica para ver detalles
+                },
+                generateReport() {
+                    alert(`Generando informe en formato ${this.reportType}`);
+                    // Lógica para generar informe
+                },
+                downloadReport(id) {
+                    alert(`Descargando informe ${id}`);
+                    // Lógica para descargar informe
+                },
+                toggleService(id) {
+                    const service = this.services.find(s => s.id === id);
+                    service.status = service.status === 'Activo' ? 'Inactivo' : 'Activo';
+                    alert(`Servicio ${service.name} ${service.status}`);
+                    // Lógica para activar/desactivar servicio
+                },
+                startTutorial(id) {
+                    alert(`Iniciando tutorial ${id}`);
+                    // Lógica para iniciar tutorial
+                }
+            }
+        }).mount('#app');
+    </script>
+</body>
+</html>

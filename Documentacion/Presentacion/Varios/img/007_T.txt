@@ -1,0 +1,9 @@
+Modulo Token
+Descripcion
+El módulo Token se encarga de generar y
+gestionar tokens de acceso seguros
+Funciones
+e Autenticacion robusta
+e Generación de tokens de corta y larga duración
+e Revocación y renovación de tokens
+e Registros de auditoría detallados

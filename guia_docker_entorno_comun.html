@@ -1,0 +1,96 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Guía Visual – Entorno Común con Docker</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 2em auto;
+      max-width: 900px;
+      background-color: #f8f9fa;
+      color: #333;
+      padding: 2em;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    h1, h2 {
+      color: #204080;
+    }
+    pre {
+      background: #eef;
+      padding: 1em;
+      border-radius: 6px;
+      overflow-x: auto;
+    }
+    .box {
+      background: #fff;
+      border-left: 4px solid #204080;
+      padding: 1em;
+      margin: 1.5em 0;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+    }
+    ul {
+      margin-left: 1.5em;
+    }
+    footer {
+      margin-top: 2em;
+      text-align: center;
+      color: #777;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>🚀 Guía Visual: Entorno Común con Docker y Docker Compose</h1>
+
+  <div class="box">
+    <h2>🎯 ¿Qué incluye este entorno?</h2>
+    <ul>
+      <li><strong>Kali Linux</strong>: contenedor de terminal para prácticas de ciberseguridad</li>
+      <li><strong>Cockpit</strong>: interfaz gráfica web para gestionar el servidor</li>
+      <li><strong>OWASP Juice Shop</strong>: aplicación vulnerable para pruebas</li>
+      <li><strong>PostgreSQL</strong>: base de datos para test y conexión desde scripts</li>
+    </ul>
+  </div>
+
+  <div class="box">
+    <h2>📦 Pasos para desplegar el entorno</h2>
+    <ol>
+      <li>Instala Docker y Docker Compose en tu equipo</li>
+      <li>Coloca el archivo <code>docker-compose.yml</code> en una carpeta vacía</li>
+      <li>Abre terminal en esa carpeta y ejecuta:</li>
+    </ol>
+    <pre><code>docker-compose up -d</code></pre>
+  </div>
+
+  <div class="box">
+    <h2>🌐 Accesos y servicios</h2>
+    <ul>
+      <li><strong>Cockpit (interfaz web):</strong> <a href="http://localhost:9090" target="_blank">http://localhost:9090</a></li>
+      <li><strong>Juice Shop:</strong> <a href="http://localhost:3000" target="_blank">http://localhost:3000</a></li>
+      <li><strong>PostgreSQL:</strong> puerto <code>5432</code>, usuario: <code>admin</code>, contraseña: <code>admin123</code></li>
+      <li><strong>Kali Linux:</strong> contenedor accesible con:
+        <pre><code>docker exec -it kali_dev bash</code></pre>
+      </li>
+    </ul>
+  </div>
+
+  <div class="box">
+    <h2>👥 ¿Cómo conectarse desde diferentes sitios?</h2>
+    <p>Si estáis en redes distintas, se recomienda una de estas opciones seguras:</p>
+    <ul>
+      <li><strong>ZeroTier:</strong> Red privada virtual gratuita. Todos los usuarios se conectan como si estuvieran en LAN.</li>
+      <li><strong>Tailscale:</strong> VPN basada en WireGuard con control de acceso por usuarios.</li>
+      <li><strong>Servidor Cloud (opcional):</strong> Subir este entorno a una máquina en la nube (ej. Oracle Cloud, AWS Free Tier).</li>
+    </ul>
+    <p>Para acceso individual, se pueden crear usuarios dentro de Cockpit o en el propio sistema Ubuntu base.</p>
+  </div>
+
+  <footer>
+    &copy; 2025 Menarguez-IA-Solutions – Guía preparada por Nacho Menárguez Fernández
+  </footer>
+
+</body>
+</html>

@@ -1,0 +1,6 @@
+El dashboard permite una
+gestion centralizada,
+con pestañas que integran
+herramientas, servicios e
+informes, facilitando el
+acceso y la activación.

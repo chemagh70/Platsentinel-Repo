@@ -1,0 +1,7 @@
+Y SentinelCore
+DASHBOARD
+WEB
+e Módulos disponibles
+e Gestión de riesgos
+e Activación de servicios
+desde el panel
