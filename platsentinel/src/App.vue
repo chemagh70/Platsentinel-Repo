@@ -5,7 +5,7 @@
     <aside class="sidebar" :class="{ 'collapsed': isCollapsed }">
       <!-- Encabezado de la barra lateral con logo -->
       <div class="sidebar-header">
-        <img src="./assets/logo_r.png" alt="PlatSentinel Logo" class="logo" />
+        <img src="./assets/img/logo_r.png" alt="PlatSentinel Logo" class="logo" />
       </div>
       <!-- Navegación con enlaces a las diferentes secciones, cada uno en una línea y centrado -->
       <nav>
@@ -20,7 +20,7 @@
       <!-- Botón de colapso/expansión en la parte inferior con imágenes -->
       <div class="sidebar-footer">
         <button @click="toggleSidebar" class="toggle-btn">
-          <img :src="isCollapsed ? './src/assets/flecha_r.png' : './src/assets/flecha_v.png'" alt="Toggle Sidebar" />
+          <img :src="isCollapsed ? './src/assets/img/flecha_r.png' : './src/assets/img/flecha_v.png'" alt="Toggle Sidebar" />
         </button>
       </div>
     </aside>
@@ -174,12 +174,12 @@
 
   /* Efecto hover en los enlaces */
   .nav-item:hover {
-    background-color: #34495e;
+    background-color: #26520b;
   }
 
   /* Estilo del enlace activo */
   .nav-item.router-link-active {
-    background-color: #3498db;
+    background-color: #49a156;
   }
 
   /* Contenido principal que se ajusta al espacio */
