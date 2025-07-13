@@ -33,7 +33,7 @@
 
 <script setup>
   // Importar la referencia reactiva de Vue para manejar el estado de colapso
-  import { ref } from 'vue';
+  import { ref, onMounted, onUnmounted } from 'vue';
 
   // Estado reactivo que controla si la barra lateral está colapsada
   const isCollapsed = ref(false);
@@ -42,6 +42,25 @@
   function toggleSidebar() {
     isCollapsed.value = !isCollapsed.value;
   }
+
+  // Función para actualizar el estado según el tamaño de la ventana
+  function handleResize() {
+    if (window.innerWidth <= 768) {
+      isCollapsed.value = true; // Colapsa por defecto en móviles
+    } else {
+      isCollapsed.value = false; // Expande por defecto en pantallas grandes
+    }
+  }
+
+  // Montar y desmontar el listener de redimensionamiento
+  onMounted(() => {
+    handleResize(); // Ajusta inicial al montar
+    window.addEventListener('resize', handleResize);
+  });
+
+  onUnmounted(() => {
+    window.removeEventListener('resize', handleResize);
+  });
 </script>
 
 <style scoped>
@@ -54,8 +73,8 @@
 
   /* Estilo de la barra lateral, pegada a los bordes */
   .sidebar {
-    width: 225px;
-    background-color: #2c3e50;
+    width: 250px;
+    background-color: #273623;
     color: #ecf0f1;
     transition: width 0.3s; /* Transición suave al colapsar */
     position: fixed; /* Fija la barra en su posición */
@@ -72,16 +91,21 @@
 
   /* Estilo cuando la barra está colapsada */
   .sidebar.collapsed {
-    width: 50px; /* Ancho reducido al colapsar */
+    width: 60px; /* Ancho reducido al colapsar */
   }
 
   /* Encabezado de la barra lateral con logo */
   .sidebar-header {
     display: flex;
-    align-items: center;
+    justify-content: center; /* Centra el logo horizontalmente */
     padding: 1rem;
-    border-bottom: 1px solid #34495e;
+    /* border-bottom: 1px solid #34495e; */
     margin: 0; /* Sin márgenes */
+  }
+
+  /* Ajuste del encabezado cuando la barra está colapsada */
+  .sidebar.collapsed .sidebar-header {
+    justify-content: flex-start; /* Alinea el logo a la izquierda cuando colapsada */
   }
 
   /* Estilo del logo dentro del encabezado */
@@ -100,7 +124,7 @@
   .sidebar-footer {
     margin-top: auto; /* Empuja el botón al fondo */
     padding: 0.5rem;
-    border-top: 1px solid #34495e;
+    /* border-top: 1px solid #34495e; */
     text-align: right; /* Alinea el botón a la derecha cuando expandido */
   }
 
@@ -160,9 +184,9 @@
 
   /* Contenido principal que se ajusta al espacio */
   .main-content {
-    margin-left: 225px; /* Espacio para la barra lateral */
+    margin-left: 250px; /* Espacio para la barra lateral */
     padding: 2rem;
-    width: calc(100% - 225px);
+    width: calc(100% - 250px);
     transition: margin-left 0.3s, width 0.3s;
     margin-top: 0; /* Sin margen superior */
     margin-bottom: 0; /* Sin margen inferior */
@@ -170,58 +194,58 @@
 
   /* Ajuste del contenido cuando la barra está colapsada */
   .sidebar.collapsed + .main-content {
-    margin-left: 50px;
-    width: calc(100% - 50px);
+    margin-left: 60px;
+    width: calc(100% - 60px);
   }
 
   /* Media query para pantallas menores a 768px (móviles) */
   @media (max-width: 768px) {
-    /* Ajusta la barra lateral para que sea accesible sin botón móvil */
+    /* Ajusta la barra lateral para que sea colapsada por defecto */
     .sidebar {
-      width: 50px; /* Ancho mínimo por defecto */
+      width: 60px; /* Ancho colapsado por defecto */
       transition: width 0.3s;
     }
 
     .sidebar.collapsed {
-      width: 225px; /* Expande al colapsar en móviles */
+      width: 250px; /* Expande al colapsar en móviles */
     }
 
     .main-content {
-      margin-left: 50px;
-      width: calc(100% - 50px);
+      margin-left: 60px;
+      width: calc(100% - 60px);
     }
 
     .sidebar.collapsed + .main-content {
-      margin-left: 225px;
-      width: calc(100% - 225px);
+      margin-left: 250px;
+      width: calc(100% - 250px);
     }
   }
 
   /* Media query para tablets (768px a 1024px) */
   @media (min-width: 768px) and (max-width: 1024px) {
     .sidebar {
-      width: 200px; /* Barra más estrecha en tablets */
+      width: 250px; /* Barra expandida en tablets */
     }
 
     .sidebar.collapsed {
-      width: 50px; /* Ancho reducido al colapsar */
+      width: 60px; /* Ancho reducido al colapsar */
     }
 
     .main-content {
-      margin-left: 200px;
-      width: calc(100% - 200px);
+      margin-left: 250px;
+      width: calc(100% - 250px);
     }
 
     .sidebar.collapsed + .main-content {
-      margin-left: 50px;
-      width: calc(100% - 50px);
+      margin-left: 60px;
+      width: calc(100% - 60px);
     }
   }
 
   /* Media query para pantallas grandes (más de 1024px) */
   @media (min-width: 1025px) {
     .sidebar {
-      width: 250px; /* Barra más ancha en pantallas grandes */
+      width: 250px; /* Barra expandida en pantallas grandes */
     }
 
     .sidebar.collapsed {
