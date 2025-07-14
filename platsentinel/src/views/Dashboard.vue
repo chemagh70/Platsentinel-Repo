@@ -53,7 +53,7 @@
 
   <h3>Gráficos de Riesgo</h3>
   <div id="contenido">
-    <img title="Gráfico de Riesgo" src="/platsentinel/src/views/images/dashboard_grafico_1.png" alt="Gráfico de Riesgo" width=100%>
+    <img title="Gráfico de Riesgo" src="/src/views/images/dashboard_grafico_1.png" alt="Gráfico de Riesgo" width=100%>
   </div>
   <br>
   <br>
