@@ -1,0 +1,118 @@
+
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Informe Técnico Ejecutivo - Suite AML</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+            background-color: #f4f8fb;
+            color: #333;
+        }
+        header {
+            background-color: #003366;
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+        }
+        h1, h2 {
+            color: #003366;
+        }
+        .section {
+            margin-top: 30px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+        th, td {
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #d9eaf7;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>📊 Informe Técnico Ejecutivo - Suite AML</h1>
+        <p><strong>Empresa:</strong> Platformline</p>
+        <p><strong>Responsable:</strong> Ignacio Menárguez Fernández</p>
+        <p><strong>Fecha:</strong> 2025-06-29 10:56</p>
+    </header>
+
+    <div class="section">
+        <h2>✅ 1. Objetivo General</h2>
+        <p>Desarrollar una suite integral para la detección de blanqueo de capitales (AML) que permita registrar, analizar y visualizar transacciones sospechosas, generar informes ejecutivos automatizados y facilitar la auditoría forense, cumpliendo criterios técnicos y de cumplimiento normativo.</p>
+    </div>
+
+    <div class="section">
+        <h2>🧱 2. Componentes y Funcionalidad</h2>
+        <ul>
+            <li><strong>Backend (FastAPI):</strong> endpoints para carga y análisis de transacciones.</li>
+            <li><strong>Frontend (Streamlit):</strong> KPIs, gráficos, visualización y acciones desde interfaz.</li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <h2>📥 3. Carga Masiva de Transacciones</h2>
+        <p>Importación vía CSV, envío a backend, validación y procesamiento automático.</p>
+    </div>
+
+    <div class="section">
+        
+    <h2>📄 4. Informe Técnico Ejecutivo</h2>
+    <p>El sistema genera automáticamente un informe técnico ejecutivo en formato HTML tras analizar las transacciones cargadas.</p>
+    <ul>
+        <li>Incluye información de cabecera: nombre de empresa, autor y fecha de generación.</li>
+        <li>Presenta una tabla con todas las transacciones detectadas como sospechosas, destacadas con estilos visuales claros.</li>
+        <li>Enumera las reglas AML aplicadas al análisis, como:</li>
+        <ul>
+            <li>Monto superior a 10.000 €.</li>
+            <li>Transferencias realizadas en fin de semana superiores a 5.000 €.</li>
+            <li>Coincidencia de cuenta origen, destino, monto y fecha (transacciones duplicadas).</li>
+        </ul>
+        <li>El documento incluye además una sección de recomendaciones de mitigación dirigidas al equipo de cumplimiento:</li>
+        <ul>
+            <li>Verificación del cliente.</li>
+            <li>Notificación a cumplimiento normativo.</li>
+            <li>Registro en sistema de excepciones.</li>
+            <li>Monitoreo de las cuentas implicadas durante 30 días.</li>
+        </ul>
+        <li>El informe puede abrirse automáticamente desde el dashboard o descargarse para ser compartido por correo electrónico.</li>
+    </ul>
+    
+    </div>
+
+    <div class="section">
+        <h2>📧 5. Envío por Email</h2>
+        <p>SMTP seguro mediante variables de entorno protegidas. Compatible con Gmail, Outlook, Hotmail.</p>
+    </div>
+
+    <div class="section">
+        <h2>🧪 6. Auditoría Forense (próxima integración)</h2>
+        <p>Análisis automatizado de procesos, puertos y logs. Generación de informe forense separado.</p>
+    </div>
+
+    <div class="section">
+        <h2>🚀 7. Ventajas de la Suite AML</h2>
+        <table>
+            <tr><th>Característica</th><th>Beneficio</th></tr>
+            <tr><td>Interfaz visual</td><td>Facilita el uso por técnicos</td></tr>
+            <tr><td>Backend modular</td><td>Rápido, ligero y escalable</td></tr>
+            <tr><td>Automatización de informes</td><td>Profesionalismo y ahorro de tiempo</td></tr>
+            <tr><td>Visualización de alertas</td><td>Detección rápida por país</td></tr>
+            <tr><td>Correo seguro</td><td>Comunicación efectiva de resultados</td></tr>
+        </table>
+    </div>
+
+    <div class="section">
+        <h2>📌 8. Conclusión</h2>
+        <p>Esta suite cubre todo el flujo AML, aportando eficiencia, automatización y cumplimiento. Próximo paso: integrar completamente el módulo forense en el dashboard.</p>
+    </div>
+</body>
+</html>
