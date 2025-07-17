@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Informe Ejecutivo - Suite AML Forense</title>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #f9fbfc; color: #333; padding: 40px; }
+        h1, h2 { color: #003366; }
+        h1 { background: #003366; color: white; padding: 20px; border-radius: 8px; }
+        h2 { border-bottom: 2px solid #ccc; padding-bottom: 6px; margin-top: 40px; }
+        ul { line-height: 1.6; }
+        code, pre { background: #eef; padding: 6px 10px; border-radius: 5px; display: block; white-space: pre-wrap; }
+        .seccion { margin-bottom: 30px; }
+    </style>
+</head>
+<body>
+    <h1>Informe Ejecutivo - Suite AML & Análisis Forense</h1>
+
+    <div class="seccion">
+        <h2>🧭 Flujo Funcional</h2>
+        <ul>
+            <li>Inicio de suite mediante script <code>lanzar_suite_aml.sh</code>.</li>
+            <li>Lanzamiento de servicios backend (FastAPI) y frontend (Streamlit).</li>
+            <li>Visualización de métricas, transacciones y alertas.</li>
+            <li>Generación de informe HTML y cálculo de hash SHA256.</li>
+            <li>Ejecución de auditoría forense y opción de envío por email.</li>
+        </ul>
+    </div>
+
+    <div class="seccion">
+        <h2>🔍 Análisis Técnico</h2>
+        <ul>
+            <li>Separación modular backend/frontend/forense confirmada.</li>
+            <li>Uso de herramientas: Python, FastAPI, Streamlit, Pandas, Altair, SMTP.</li>
+            <li>Corrección de errores previos: conflictos de puerto, doble apertura, enlaces rotos.</li>
+            <li>Envió de correos corregido con codificación <code>utf-8</code>.</li>
+        </ul>
+    </div>
+
+    <div class="seccion">
+        <h2>🎨 Experiencia de Usuario (UX)</h2>
+        <ul>
+            <li>Flujo directo y con interfaz clara.</li>
+            <li>Elementos visuales bien definidos con iconografía intuitiva.</li>
+            <li>Evita recarga automática innecesaria (sin <code>--reload</code>).</li>
+            <li>Se optimizó la visualización del informe con descarga segura.</li>
+        </ul>
+    </div>
+
+    <div class="seccion">
+        <h2>💡 Recomendaciones</h2>
+        <ul>
+            <li>Agregar botón de copiado automático del hash SHA256.</li>
+            <li>Validar dirección de correo antes del envío.</li>
+            <li>Agregar exportación en PDF y panel histórico de informes generados.</li>
+        </ul>
+    </div>
+
+    <div class="seccion">
+        <h2>🧩 Componentes Identificados</h2>
+        <ul>
+            <li><code>lanzar_suite_aml.sh</code>, <code>aml_dashboard.py</code>, <code>main_sql.py</code>, <code>forensis.py</code></li>
+            <li>Rutas: <code>/home/kali/nacho/practicas</code>, <code>/scripts</code>, <code>/informes</code></li>
+            <li>Comandos clave: <code>streamlit run</code>, <code>uvicorn</code>, <code>fuser -k</code>, <code>xdg-open</code></li>
+        </ul>
+    </div>
+
+    <div class="seccion">
+        <h2>📁 Contenido Clave</h2>
+        <pre>
+nombre_archivo = /home/kali/nacho/practicas/informes/informe_forense_dashboard_20250701_143215.html
+sha256_hash = e2b5f7c114d4e6752bb836c9f74afdea...
+smtp_server = smtp.gmail.com
+puerto = 587
+        </pre>
+    </div>
+</body>
+</html>

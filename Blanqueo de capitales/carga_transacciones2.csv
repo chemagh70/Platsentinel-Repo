@@ -1,0 +1,12 @@
+cuenta_origen,cuenta_destino,monto,fecha,pais_origen,pais_destino,canal
+ORIG001,DEST001,100,2025-06-26,España,México,transferencia
+ORIG002,DEST002,200,2025-06-25,España,México,transferencia
+ORIG003,DEST003,300,2025-06-24,España,México,transferencia
+ORIG004,DEST004,400,2025-06-23,España,México,transferencia
+ORIG005,DEST005,500,2025-06-22,España,México,transferencia
+ORIG006,DEST006,600,2025-06-21,España,México,transferencia
+ORIG007,DEST007,700,2025-06-20,España,México,transferencia
+ORIG008,DEST008,800,2025-06-19,España,México,transferencia
+ORIG009,DEST009,900,2025-06-18,España,México,transferencia
+ORIG010,DEST010,1000,2025-06-17,España,México,transferencia
+ORIG999,DEST999,15000,2025-06-29,España,México,transferencia
