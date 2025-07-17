@@ -3,6 +3,7 @@
     <h1>Escaneo de Red</h1>
     <p>Sección para escanear redes.</p>
   </div>
+  <br>
 
     <h3>Escaneo de dispositivos conectados</h3>
   <div id="contenido_herramientas">
